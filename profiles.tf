@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 
 resource "intersight_fabric_switch_cluster_profile" "fabric_switch_cluster_profile1" {
-  name        = "${var.policy_prefix}-domain"
+  name        = "${var.policy_prefix}-ucs"
   description = var.description
   type        = "instance"
   organization {
@@ -24,9 +24,12 @@ resource "intersight_fabric_switch_cluster_profile" "fabric_switch_cluster_profi
 # -----------------------------------------------------------------------------
 
 resource "intersight_fabric_switch_profile" "fabric_switch_profile_a" {
+  depends_on = [
+    intersight_fabric_eth_network_policy.fabric_eth_network_policy1
+  ]
   action      = "No-op"
   description = var.description
-  name        = "${var.policy_prefix}-domain-profile-A"
+  name        = "${var.policy_prefix}-ucs-profile-A"
   type        = "instance"
   switch_cluster_profile {
     moid = intersight_fabric_switch_cluster_profile.fabric_switch_cluster_profile1.moid
@@ -53,9 +56,12 @@ resource "intersight_fabric_switch_profile" "fabric_switch_profile_a" {
   # }
 }
 resource "intersight_fabric_switch_profile" "fabric_switch_profile_b" {
+  depends_on = [
+    intersight_fabric_eth_network_policy.fabric_eth_network_policy1
+  ]
   action      = "No-op"
   description = var.description
-  name        = "${var.policy_prefix}-domain-profile-B"
+  name        = "${var.policy_prefix}-ucs-profile-B"
   type        = "instance"
   switch_cluster_profile {
     moid = intersight_fabric_switch_cluster_profile.fabric_switch_cluster_profile1.moid
